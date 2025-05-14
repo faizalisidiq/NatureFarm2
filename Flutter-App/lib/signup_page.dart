@@ -1,9 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:naturefarm/services/auth_services.dart';
 import 'login_page.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  // Tambahkan controllers
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +84,17 @@ class SignUpPage extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 20),
-                        _textField('Username', Icons.person),
+                        _textField('Username', Icons.person,
+                            controller: _usernameController),
                         const SizedBox(height: 16),
-                        _textField('Email', Icons.email),
+                        _textField('Email', Icons.email,
+                            controller: _emailController),
                         const SizedBox(height: 16),
-                        _textField('Password', Icons.lock, obscure: true),
+                        _textField('Password', Icons.lock,
+                            controller: _passwordController, obscure: true),
                         const SizedBox(height: 16),
-                        _textField('Phone', Icons.phone),
+                        _textField('Phone', Icons.phone,
+                            controller: _phoneController),
                         const SizedBox(height: 24),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -79,8 +104,57 @@ class SignUpPage extends StatelessWidget {
                             ),
                             minimumSize: const Size.fromHeight(50),
                           ),
-                          onPressed: () {
-                            Navigator.pop(context);
+                          onPressed: () async {
+                            // Validasi email
+                            bool emailValid = RegExp(
+                                    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+                                .hasMatch(_emailController.text);
+
+                            if (_usernameController.text.isEmpty ||
+                                _emailController.text.isEmpty ||
+                                _passwordController.text.isEmpty ||
+                                _phoneController.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Semua field harus diisi!')),
+                              );
+                              return;
+                            }
+
+                            if (!emailValid) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Format email tidak valid!')),
+                              );
+                              return;
+                            }
+
+                            // Lanjutkan dengan proses signup
+                            try {
+                              final response = await AuthServices.register(
+                                nama: _usernameController.text,
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                                no_hp: _phoneController.text,
+                              );
+
+                              if (response['success']) {
+                                // Jika berhasil, navigasi ke halaman login
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const LoginPage()),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(response['message'])),
+                                );
+                              }
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Error: $e')),
+                              );
+                            }
                           },
                           child: Text('Sign Up',
                               style: GoogleFonts.poppins(
@@ -98,8 +172,10 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  Widget _textField(String hint, IconData icon, {bool obscure = false}) {
+  Widget _textField(String hint, IconData icon,
+      {bool obscure = false, required TextEditingController controller}) {
     return TextField(
+      controller: controller,
       obscureText: obscure,
       decoration: InputDecoration(
         hintText: hint,
