@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Image.asset('assets/naturefarm_logo.png', height: 250),
                   const SizedBox(height: 8),
-                  Text('NaturFarm',
+                  Text('Natur Farm',
                       style: GoogleFonts.poppins(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -88,27 +88,6 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           onPressed: () async {
                             try {
-                              if (_emailController.text.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Email tidak boleh kosong'),
-                                    backgroundColor: const Color(0xFF45613F),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              if (_passwordController.text.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content:
-                                        Text('Password tidak boleh kosong'),
-                                    backgroundColor: Colors.red,
-                                  ),
-                                );
-                                return;
-                              }
-
                               final response = await AuthServices.login(
                                 email: _emailController.text,
                                 password: _passwordController.text,
@@ -132,22 +111,10 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 );
                               } else {
-                                // Pesan error spesifik berdasarkan response
-                                String errorMessage = 'Terjadi kesalahan';
-
-                                if (response['message']
-                                    .toString()
-                                    .contains('email')) {
-                                  errorMessage = 'Email tidak terdaftar';
-                                } else if (response['message']
-                                    .toString()
-                                    .contains('password')) {
-                                  errorMessage = 'Password salah';
-                                }
-
+                                // Jika login gagal
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(errorMessage),
+                                  const SnackBar(
+                                    content: Text('Akun anda salah'),
                                     backgroundColor: Colors.red,
                                   ),
                                 );
