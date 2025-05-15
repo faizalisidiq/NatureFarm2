@@ -49,50 +49,33 @@ class AuthServices {
     required String email,
     required String password,
   }) async {
-    // Validasi input
-    if (email.isEmpty || password.isEmpty) {
-      return {
-        'success': false,
-        'message': 'Email dan password harus diisi',
-        'data': null
-      };
-    }
-
-    if (!email.contains('@')) {
-      return {
-        'success': false,
-        'message': 'Format email tidak valid',
-        'data': null
-      };
-    }
-
     try {
-      // Get semua customers untuk dicek
       var url = Uri.parse(baseURL + 'admin/customers');
-
-      http.Response response = await http.get(
-        url,
-        headers: headers,
-      );
+      http.Response response = await http.get(url, headers: headers);
 
       if (response.statusCode == 200) {
         var customers = json.decode(response.body);
 
-        // Cari customer dengan email yang sesuai
-        var user = customers['data'].firstWhere(
-            (customer) =>
-                customer['email'] == email && customer['password'] == password,
+        // Cek email terlebih dahulu
+        var userWithEmail = customers['data'].firstWhere(
+            (customer) => customer['email'] == email,
             orElse: () => null);
 
-        if (user != null) {
-          return {'success': true, 'message': 'Login berhasil', 'data': user};
-        } else {
-          return {
-            'success': false,
-            'message': 'Email atau password salah',
-            'data': null
-          };
+        if (userWithEmail == null) {
+          return {'success': false, 'message': 'email_not_found', 'data': null};
         }
+
+        // Jika email ditemukan, cek password
+        if (userWithEmail['password'] != password) {
+          return {'success': false, 'message': 'wrong_password', 'data': null};
+        }
+
+        // Jika email dan password benar
+        return {
+          'success': true,
+          'message': 'Login berhasil',
+          'data': userWithEmail
+        };
       } else {
         return {
           'success': false,
