@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:naturefarm/services/auth_services.dart';
+import 'package:naturefarm/services/auth_services.dart'; // Pastikan path ke auth_services benar
 import 'signup_page.dart';
 import 'home1_page.dart';
 
@@ -87,11 +87,14 @@ class _LoginPageState extends State<LoginPage> {
                             minimumSize: const Size.fromHeight(50),
                           ),
                           onPressed: () async {
+                            // Menambahkan pengecekan response
                             try {
                               final response = await AuthServices.login(
                                 email: _emailController.text,
                                 password: _passwordController.text,
                               );
+                              
+                              print(response); // Debugging untuk melihat response
 
                               if (response['success']) {
                                 // Jika login berhasil

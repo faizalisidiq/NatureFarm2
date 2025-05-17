@@ -12,7 +12,9 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.6
   google_fonts: ^6.1.0
-  http: ^1.4.0
+  flutter_map: ^6.1.0
+  latlong2: ^0.9.1  
+  url_launcher: ^6.2.5
 
 dev_dependencies:
   flutter_test:
@@ -24,3 +26,5 @@ flutter:
 
   assets:
     - assets/naturefarm_logo.png
+    - assets/profile_picture.jpg
+
