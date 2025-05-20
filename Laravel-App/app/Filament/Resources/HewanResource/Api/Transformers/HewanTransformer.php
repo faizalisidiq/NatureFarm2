@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Filament\Resources\HewanResource\Api\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -18,11 +19,11 @@ class HewanTransformer extends JsonResource
      */
     public function toArray($request)
     {
-        // return $this->resource->toArray();
-        return [
-            'id' => $this->resource->id,
-            'nama_hewan' => $this->resource->nama_hewan,
-            'jenis_kelamin' => $this->resource->jenis_kelamin,
-        ];
+        return $this->resource->toArray();
+        // return [
+        //     'id' => $this->resource->id,
+        //     'nama_hewan' => $this->resource->nama_hewan,
+        //     'jenis_kelamin' => $this->resource->jenis_kelamin,
+        // ];
     }
 }

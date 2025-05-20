@@ -3,16 +3,67 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class FlutterMapPage extends StatelessWidget {
-  final LatLng lokasiPakTekno = LatLng(-7.122833, 112.250567); // Koordinat lokasi
+class FlutterMapPage extends StatefulWidget {
+  const FlutterMapPage({super.key});
 
-  void _bukaRuteDiGoogleMaps() async {
-    final Uri url = Uri.parse(
-        'https://www.google.com/maps/dir/?api=1&destination=${lokasiPakTekno.latitude},${lokasiPakTekno.longitude}');
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.externalApplication);
-    } else {
-      throw 'Tidak bisa membuka Google Maps';
+  @override
+  State<FlutterMapPage> createState() => _FlutterMapPageState();
+}
+
+class _FlutterMapPageState extends State<FlutterMapPage> {
+  final LatLng lokasiPakTekno =
+      LatLng(-7.122833, 112.250567); // Koordinat lokasi
+
+  void _bukaRuteDiGoogleMaps(BuildContext context) async {
+    try {
+      final Uri url = Uri.parse(
+          'https://www.google.com/maps/dir/?api=1&destination=${lokasiPakTekno.latitude},${lokasiPakTekno.longitude}');
+
+      if (await canLaunchUrl(url)) {
+        final bool launched = await launchUrl(
+          url,
+          mode: LaunchMode.externalApplication,
+          webViewConfiguration: const WebViewConfiguration(
+            enableJavaScript: true,
+            enableDomStorage: true,
+          ),
+        );
+
+        if (!launched) {
+          throw 'Could not launch Google Maps';
+        }
+      } else {
+        // Tampilkan dialog jika tidak bisa membuka Maps
+        if (context.mounted) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Error'),
+                content: const Text(
+                    'Tidak dapat membuka Google Maps. Pastikan aplikasi Maps terinstall di emulator.'),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text('OK'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      }
+    } catch (e) {
+      print('Error launching URL: $e');
+      // Tampilkan pesan error
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -43,7 +94,8 @@ class FlutterMapPage extends StatelessWidget {
             children: [
               Icon(Icons.location_on),
               SizedBox(width: 8),
-              Expanded(child: Text("Menongo, Kec. Sukodadi, Kabupaten Lamongan")),
+              Expanded(
+                  child: Text("Menongo, Kec. Sukodadi, Kabupaten Lamongan")),
             ],
           ),
           SizedBox(height: 6),
@@ -92,7 +144,7 @@ class FlutterMapPage extends StatelessWidget {
 
           // TOMBOL RUTE
           ElevatedButton.icon(
-            onPressed: _bukaRuteDiGoogleMaps,
+            onPressed: () => _bukaRuteDiGoogleMaps(context),
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xFF224D31),
               shape: RoundedRectangleBorder(

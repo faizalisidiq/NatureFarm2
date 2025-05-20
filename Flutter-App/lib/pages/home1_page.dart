@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:naturefarm/pages/artikel/artikel_page.dart';
+import 'package:naturefarm/pages/hewan/mart.dart';
+import 'package:naturefarm/pages/pakan/PakanPage.dart';
 import 'shipping_page.dart';
 import 'flutter_map.dart'; // Impor FlutterMapPage
 import 'profile_page.dart'; // Import halaman profil yang baru dibuat
@@ -86,17 +89,17 @@ class _Home1PageState extends State<Home1Page> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Fitur',
-                            style: GoogleFonts.poppins(
-                              fontSize: 18,
-                              color: Color(0xFF224D31),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
+                        // Align(
+                        //   alignment: Alignment.centerLeft,
+                        //   child: Text(
+                        //     'Fitur',
+                        //     style: GoogleFonts.poppins(
+                        //       fontSize: 18,
+                        //       color: Color(0xFF224D31),
+                        //       fontWeight: FontWeight.bold,
+                        //     ),
+                        //   ),
+                        // ),
                         const SizedBox(height: 12),
                         // GridView yang lebih kecil ukurannya
                         GridView.count(
@@ -106,10 +109,35 @@ class _Home1PageState extends State<Home1Page> {
                           crossAxisSpacing: 16,
                           mainAxisSpacing: 16,
                           children: [
-                            _buildFiturItem(Icons.article, 'Artikel'),
-                            _buildFiturItem(Icons.shopping_basket, 'Mart'),
-                            _buildFiturItem(Icons.agriculture, 'Info Pangan'),
-                            _buildFiturItem(Icons.location_on, 'Lokasi', onTap: () {
+                            _buildFiturItem(Icons.article, 'Artikel',
+                                onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ArticleListScreen(),
+                                ),
+                              );
+                            }),
+                            _buildFiturItem(Icons.shopping_basket, 'Mart',
+                                onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HewanPage(),
+                                ),
+                              );
+                            }),
+                            _buildFiturItem(Icons.agriculture, 'Info Pakan',
+                                onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PakanListScreen(),
+                                ),
+                              );
+                            }),
+                            _buildFiturItem(Icons.location_on, 'Lokasi',
+                                onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -132,7 +160,7 @@ class _Home1PageState extends State<Home1Page> {
 
       // Bottom Navigation Bar dengan navigasi ke Halaman Pengiriman dan Profil
       bottomNavigationBar: Container(
-        height: 50,  // Menurunkan tinggi untuk navbar lebih ringkas
+        height: 50, // Menurunkan tinggi untuk navbar lebih ringkas
         decoration: const BoxDecoration(
           color: Color(0xFF224D31),
           borderRadius: BorderRadius.only(

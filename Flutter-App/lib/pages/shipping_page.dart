@@ -22,12 +22,14 @@ class _ShippingPageState extends State<ShippingPage> {
     },
     {
       'time': '22 Apr 07:07',
-      'status': 'Mobil pickup sudah ditugaskan. Kambing/sapi sedang dalam perjalanan.',
+      'status':
+          'Mobil pickup sudah ditugaskan. Kambing/sapi sedang dalam perjalanan.',
       'icon': 'directions_car', // Menggunakan ikon directions_car
     },
     {
       'time': '21 Apr 23:58',
-      'status': 'Proses pickup selesai, kambing/sapi dipindahkan ke kendaraan pengantar.',
+      'status':
+          'Proses pickup selesai, kambing/sapi dipindahkan ke kendaraan pengantar.',
       'icon': 'done_all', // Menggunakan ikon done_all
     },
     {
@@ -37,7 +39,8 @@ class _ShippingPageState extends State<ShippingPage> {
     },
     {
       'time': '21 Apr 21:27',
-      'status': 'Pesanan telah diproses dan siap untuk dijemput oleh kendaraan pengantar.',
+      'status':
+          'Pesanan telah diproses dan siap untuk dijemput oleh kendaraan pengantar.',
       'icon': 'assignment_turned_in', // Menggunakan ikon assignment_turned_in
     },
   ];
@@ -47,7 +50,8 @@ class _ShippingPageState extends State<ShippingPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF224D31),
-        title: const Text('Status Pengiriman'),
+        title: const Text('Status Pengiriman',
+            style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
       body: Padding(
@@ -67,7 +71,8 @@ class _ShippingPageState extends State<ShippingPage> {
                 itemCount: _deliveryStatusList.length,
                 itemBuilder: (context, index) {
                   var status = _deliveryStatusList[index];
-                  return _buildStatusItem(status['time']!, status['status']!, status['icon']!);
+                  return _buildStatusItem(
+                      status['time']!, status['status']!, status['icon']!);
                 },
               ),
             ),
