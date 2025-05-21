@@ -22,8 +22,10 @@ class Hewan {
   factory Hewan.fromJson(Map<String, dynamic> json) {
     // Membuat URL gambar lengkap berdasarkan nama file
     String imageUrl =
-        'http://10.0.2.2:8000/storage/${json['gambar']}'; // Gantilah dengan URL server Anda
+           'http://10.0.2.2:8000/storage/${json['gambar']}'; // API untuk emulator
         // 'http://127.0.0.1:8000/storage/${json['gambar']}'; // API untuk web
+        // 'http://18.138.155.224/storage/${json['gambar']}'; // API untuk server AWS
+
     return Hewan(
       nama_hewan: json['nama_hewan'],
       jenis_kelamin: json['jenis_kelamin'],

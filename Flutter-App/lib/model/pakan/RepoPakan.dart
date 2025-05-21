@@ -4,8 +4,9 @@ import 'package:naturefarm/model/pakan/pakan.dart';
 
 class RepoPakan {
   static const String baseUrl =
-      'http://10.0.2.2:8000/api/admin'; // Gantilah dengan URL API Anda
-  // 'http://127.0.0.1:8000/api/admin/hewans'; // API untuk web
+      'http://10.0.2.2:8000/api/admin'; // API untuk emulator
+  // 'http://127.0.0.1:8000/api/admin/'; // API untuk web
+  // 'http://18.138.155.224/api/admin/'; // API untuk AWS
 
   Future<List<Pakan>> getPakanList() async {
     final response = await http.get(Uri.parse('$baseUrl/pakans'));

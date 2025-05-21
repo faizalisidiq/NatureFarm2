@@ -118,8 +118,9 @@ class _PakanListScreenState extends State<PakanListScreen> {
                         borderRadius: BorderRadius.circular(8),
                         child: pakan.gambar != null && pakan.gambar!.isNotEmpty
                             ? Image.network(
-                                'http://10.0.2.2:8000/storage/${pakan.gambar}', // Changed URL path
+                                'http://10.0.2.2:8000/storage/${pakan.gambar}', // API untuk Emulator
                                 // 'http://127.0.0.1:8000/storage/${pakan.gambar}', // API untuk web
+                                // 'http://18.138.155.224/storage/${pakan.gambar}', // API untuk AWS
                                 width: 80,
                                 height: 80,
                                 fit: BoxFit.cover,
