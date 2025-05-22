@@ -159,23 +159,19 @@ class _Home1PageState extends State<Home1Page> {
       ),
 
       // Bottom Navigation Bar dengan navigasi ke Halaman Pengiriman dan Profil
-      bottomNavigationBar: Container(
-        height: 50, // Menurunkan tinggi untuk navbar lebih ringkas
-        decoration: const BoxDecoration(
-          color: Color(0xFF224D31),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: const Color(0xFF224D31), // Set background color
         ),
         child: BottomNavigationBar(
-          backgroundColor: Colors.transparent, // Menggunakan transparan
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.white70,
           currentIndex: _currentIndex,
-          iconSize: 20, // Ukuran icon lebih kecil
-          selectedFontSize: 10, // Ukuran font label lebih kecil
-          unselectedFontSize: 10, // Ukuran font label lebih kecil
+          iconSize: 20,
+          selectedFontSize: 10,
+          unselectedFontSize: 10,
+          type: BottomNavigationBarType.fixed, // Tambahkan ini
+          elevation: 0, // Hilangkan shadow
           onTap: (index) {
             setState(() {
               _currentIndex = index;
