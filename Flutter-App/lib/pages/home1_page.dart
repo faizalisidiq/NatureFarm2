@@ -42,50 +42,20 @@ class _Home1PageState extends State<Home1Page> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Username dan status
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Usernameee',
-                            style: GoogleFonts.poppins(
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            'Peternak',
-                            style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              color: Colors.white70,
-                            ),
-                          ),
-                        ],
+                      // Logo atau judul aplikasi
+                      Text(
+                        'NatureFarm',
+                        style: GoogleFonts.poppins(
+                          fontSize: 22,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      // Icon notifikasi & profil
-                      Row(
-                        children: [
-                          // IconButton(
-                          //   icon: const Icon(Icons.notifications,
-                          //       color: Colors.white),
-                          //   onPressed: () {
-                          //     Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             const NotificationPage(),
-                          //       ),
-                          //     );
-                          //   },
-                          // ),
-                          const SizedBox(width: 8),
-                          CircleAvatar(
-                            backgroundColor: Colors.white,
-                            child: Icon(Icons.person, color: Color(0xFF224D31)),
-                          ),
-                        ],
-                      )
+                      // Icon profil
+                      CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Icon(Icons.person, color: Color(0xFF224D31)),
+                      ),
                     ],
                   ),
                 ),
@@ -98,17 +68,6 @@ class _Home1PageState extends State<Home1Page> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       children: [
-                        // Align(
-                        //   alignment: Alignment.centerLeft,
-                        //   child: Text(
-                        //     'Fitur',
-                        //     style: GoogleFonts.poppins(
-                        //       fontSize: 18,
-                        //       color: Color(0xFF224D31),
-                        //       fontWeight: FontWeight.bold,
-                        //     ),
-                        //   ),
-                        // ),
                         const SizedBox(height: 12),
                         // GridView yang lebih kecil ukurannya
                         GridView.count(
