@@ -6,6 +6,8 @@ import 'package:naturefarm/pages/pakan/PakanPage.dart';
 import 'shipping_page.dart';
 import 'flutter_map.dart'; // Impor FlutterMapPage
 import 'profile_page.dart'; // Import halaman profil yang baru dibuat
+import 'package:naturefarm/pages/notification_page.dart'; // tambahkan ini
+
 
 class Home1Page extends StatefulWidget {
   const Home1Page({super.key});
@@ -68,7 +70,14 @@ class _Home1PageState extends State<Home1Page> {
                           IconButton(
                             icon: const Icon(Icons.notifications,
                                 color: Colors.white),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const NotificationPage(),
+                                ),
+                              );
+                            },
                           ),
                           const SizedBox(width: 8),
                           CircleAvatar(
