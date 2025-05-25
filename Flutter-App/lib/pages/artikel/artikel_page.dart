@@ -109,7 +109,7 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
                               ? Image.network(
                                   // 'http://18.138.155.224/storage/${article.gambar}', // API untuk server AWS
                                   'http://127.0.0.1:8000/storage/${article.gambar}', // API untuk web
-                                  //'http://10.0.2.2:8000/storage/${article.gambar}', // API untuk Emulator
+                                  // 'http://10.0.2.2:8000/storage/${article.gambar}', // API untuk Emulator
                                   width: 80,
                                   height: 80,
                                   fit: BoxFit.cover,

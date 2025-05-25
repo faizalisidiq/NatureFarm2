@@ -3,9 +3,10 @@ import 'package:http/http.dart' as http;
 import 'package:naturefarm/model/artikel/artikel.dart';
 
 class ApiService {
-  //static const String baseUrl =
-      //'http://10.0.2.2:8000/api/admin'; // API untuk emulator
-  static const String baseUrl = 'http://127.0.0.1:8000/api/admin'; // API untuk web
+  // static const String baseUrl =
+  //     'http://10.0.2.2:8000/api/admin'; // API untuk emulator
+  static const String baseUrl =
+      'http://127.0.0.1:8000/api/admin'; // API untuk web
   // static const String baseUrl =
   //     'http://18.138.155.224/api/admin'; // API untuk AWS
 

@@ -4,10 +4,9 @@ import 'package:naturefarm/pages/artikel/artikel_page.dart';
 import 'package:naturefarm/pages/hewan/mart.dart';
 import 'package:naturefarm/pages/pakan/PakanPage.dart';
 import 'shipping_page.dart';
-import 'flutter_map.dart'; // Impor FlutterMapPage
+import 'lokasi/flutter_map.dart'; // Impor FlutterMapPage
 import 'profile_page.dart'; // Import halaman profil yang baru dibuat
 import 'package:naturefarm/pages/notification_page.dart'; // tambahkan ini
-
 
 class Home1Page extends StatefulWidget {
   const Home1Page({super.key});
@@ -67,18 +66,19 @@ class _Home1PageState extends State<Home1Page> {
                       // Icon notifikasi & profil
                       Row(
                         children: [
-                          IconButton(
-                            icon: const Icon(Icons.notifications,
-                                color: Colors.white),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const NotificationPage(),
-                                ),
-                              );
-                            },
-                          ),
+                          // IconButton(
+                          //   icon: const Icon(Icons.notifications,
+                          //       color: Colors.white),
+                          //   onPressed: () {
+                          //     Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //         builder: (context) =>
+                          //             const NotificationPage(),
+                          //       ),
+                          //     );
+                          //   },
+                          // ),
                           const SizedBox(width: 8),
                           CircleAvatar(
                             backgroundColor: Colors.white,
@@ -164,53 +164,6 @@ class _Home1PageState extends State<Home1Page> {
               ],
             ),
           ),
-        ),
-      ),
-
-      // Bottom Navigation Bar dengan navigasi ke Halaman Pengiriman dan Profil
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: const Color(0xFF224D31), // Set background color
-        ),
-        child: BottomNavigationBar(
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white70,
-          currentIndex: _currentIndex,
-          iconSize: 20,
-          selectedFontSize: 10,
-          unselectedFontSize: 10,
-          type: BottomNavigationBarType.fixed, // Tambahkan ini
-          elevation: 0, // Hilangkan shadow
-          onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-              if (_currentIndex == 1) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ShippingPage()),
-                );
-              } else if (_currentIndex == 2) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ProfilePage()),
-                );
-              }
-            });
-          },
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Beranda',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.local_shipping),
-              label: 'Pengiriman',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profil',
-            ),
-          ],
         ),
       ),
     );

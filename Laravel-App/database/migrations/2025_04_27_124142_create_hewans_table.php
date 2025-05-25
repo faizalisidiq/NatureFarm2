@@ -16,11 +16,9 @@ return new class extends Migration
             $table->string('nama_hewan');
             $table->string('jenis_kelamin');
             $table->string('deskripsi');
-            $table->integer('harga');
             $table->integer('stok');
             $table->string('status');
             $table->string('gambar')->nullable();
-            $table->foreignId('hewan_id')->constrained('transaksi_hewans', 'id')->onDelete('cascade');
             $table->timestamps();
         });
     }
