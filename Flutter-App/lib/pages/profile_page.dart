@@ -6,57 +6,70 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String fullName = "Imam";
-    final String title = "Peternak";
+    final String fullName = "Leanor";
+    final String title = "Pembeli";
     final String email = "carrie_sanders@email.com";
     final String phone = "080977665";
     final String address = "Lamongan, Jawa Timur";
-    final String password = "••••••••"; // Password disembunyikan
+    final String password = "••••••••";
 
     return Scaffold(
+      backgroundColor: const Color(0xFFF7F6F2), // Latar belakang lembut
       appBar: AppBar(
-        title: Text('Edit Profile'),
+        title: Text(
+          'Edit Profile',
+          style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+        ),
         backgroundColor: const Color(0xFF224D31),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Profile Photo with circular frame
             Center(
               child: CircleAvatar(
                 radius: 60,
-                backgroundImage: AssetImage('assets/profile_picture.jpg'), // Update with the correct image path
+                backgroundImage: AssetImage('assets/profile_picture.jpg'),
                 backgroundColor: Colors.grey[300],
               ),
             ),
-            const SizedBox(height: 20),
-            // Full Name
-            Center(
-              child: Text(
-                fullName,
-                style: GoogleFonts.poppins(
-                    fontSize: 24, fontWeight: FontWeight.bold),
-              ),
+            const SizedBox(height: 16),
+            Text(
+              fullName,
+              style: GoogleFonts.poppins(
+                  fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            // Title
-            Center(
-              child: Text(
-                title,
-                style: GoogleFonts.poppins(
-                    fontSize: 18, color: Colors.grey[700]),
+            Text(
+              title,
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                color: Colors.grey[600],
               ),
             ),
             const SizedBox(height: 20),
-            // Divider and Contact Info
-            _buildInfoRow(Icons.email, email),
-            const Divider(color: Colors.grey, thickness: 1),
-            _buildInfoRow(Icons.phone, phone),
-            const Divider(color: Colors.grey, thickness: 1),
-            _buildInfoRow(Icons.location_on, address),
-            const Divider(color: Colors.grey, thickness: 1),
-            _buildInfoRow(Icons.lock, password), // Password section
+            // Card Info
+            Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                child: Column(
+                  children: [
+                    _buildInfoRow(Icons.email_rounded, email),
+                    const Divider(),
+                    _buildInfoRow(Icons.phone_rounded, phone),
+                    const Divider(),
+                    _buildInfoRow(Icons.location_on_rounded, address),
+                    const Divider(),
+                    _buildInfoRow(Icons.lock_rounded, password),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -64,20 +77,20 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _buildInfoRow(IconData icon, String info) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        children: [
-          Icon(icon, color: const Color(0xFF224D31)),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              info,
-              style: GoogleFonts.poppins(fontSize: 16, color: Colors.black),
+    return Row(
+      children: [
+        Icon(icon, color: const Color(0xFF224D31)),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            info,
+            style: GoogleFonts.poppins(
+              fontSize: 16,
+              color: Colors.black87,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
