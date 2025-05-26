@@ -220,7 +220,7 @@ class _PakanListScreenState extends State<PakanListScreen> {
                 padding: const EdgeInsets.all(8),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 0.7,
+                  childAspectRatio: 0.65, // Sesuaikan nilai ini
                   crossAxisSpacing: 8,
                   mainAxisSpacing: 8,
                 ),
@@ -255,10 +255,7 @@ class _PakanListScreenState extends State<PakanListScreen> {
               width: double.infinity,
               child: pakan.gambar != null && pakan.gambar!.isNotEmpty
                   ? Image.network(
-                      // 'http://10.0.2.2:8000/storage/${pakan.gambar}',
-                      // 'http://127.0.0.1:8000/storage/${pakan.gambar}',
                       'http://18.138.155.224/storage/${pakan.gambar}',
-
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         print('Error loading image: $error');
@@ -278,59 +275,56 @@ class _PakanListScreenState extends State<PakanListScreen> {
                     ),
             ),
             // Info Produk
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    pakan.namaPakan,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    pakan.deskripsi,
-                    style: const TextStyle(fontSize: 12, color: Colors.grey),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Stok: ${pakan.stok}',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      pakan.namaPakan,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
-                  ),
-                ],
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      pakan.deskripsi,
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      'Stok: ${pakan.stok}',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            // Tombol Pesan
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  icon: const FaIcon(FontAwesomeIcons.whatsapp, size: 16),
-                  label: const Text('Pesan', style: TextStyle(fontSize: 12)),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF25D366),
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                  ),
-                  onPressed: () => _showOrderDialog(pakan),
+            // Tombol Pesan - posisi tetap di bawah
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                icon: const FaIcon(FontAwesomeIcons.whatsapp, size: 14),
+                label: const Text('Pesan', style: TextStyle(fontSize: 12)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF25D366),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  minimumSize: const Size(double.infinity, 30),
                 ),
+                onPressed: () => _showOrderDialog(pakan),
               ),
             ),
           ],

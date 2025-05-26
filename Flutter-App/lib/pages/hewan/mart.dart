@@ -221,7 +221,7 @@ class _HewanPageState extends State<HewanPage> {
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 0.75,
+                  childAspectRatio: 0.65, // Lebih ramping
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                 ),
@@ -236,8 +236,8 @@ class _HewanPageState extends State<HewanPage> {
   }
 
   Widget _buildHewanCard(Hewan hewan) {
-    return SizedBox(
-      height: 260, // Atur tinggi tetap sesuai kebutuhan
+    return Container(
+      // Hapus height tetap karena sudah diatur di GridView.builder dengan childAspectRatio
       child: Card(
         clipBehavior: Clip.antiAlias,
         elevation: 3,
@@ -245,12 +245,11 @@ class _HewanPageState extends State<HewanPage> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Gambar hewan
-            SizedBox(
-              height: 90,
+            // Gambar hewan - Tinggi tetap
+            Container(
+              height: 100,
               width: double.infinity,
               child: hewan.gambar.isNotEmpty
                   ? Image.network(
@@ -269,56 +268,65 @@ class _HewanPageState extends State<HewanPage> {
                       ),
                     ),
             ),
-            // Informasi dan tombol
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    hewan.nama_hewan,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+
+            // Informasi - Gunakan Expanded agar tingginya fleksibel
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      hewan.nama_hewan,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14, // Ukuran font lebih kecil
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    hewan.deskripsi,
-                    style: TextStyle(
-                      color: Colors.grey[700],
-                      fontSize: 12,
+                    const SizedBox(height: 2), // Kurangi spasi
+                    Text(
+                      hewan.deskripsi,
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                        fontSize: 12,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    "Stok: ${hewan.stok}",
-                    style: TextStyle(
-                      color: Colors.grey[700],
-                      fontSize: 12,
+                    const SizedBox(height: 2), // Kurangi spasi
+                    Text(
+                      "Stok: ${hewan.stok}",
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                        fontSize: 12,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  icon: const FaIcon(FontAwesomeIcons.whatsapp, size: 16),
-                  label: const Text('Pesan', style: TextStyle(fontSize: 12)),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF25D366),
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                  ),
-                  onPressed: () => _showOrderDialog(hewan),
+
+            // Tombol Pesan - Tinggi tetap, tidak ada padding vertikal
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              height: 32, // Tinggi tetap
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                icon: const FaIcon(FontAwesomeIcons.whatsapp,
+                    size: 12), // Lebih kecil
+                label: const Text('Pesan',
+                    style: TextStyle(fontSize: 11)), // Lebih kecil
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF25D366),
+                  foregroundColor: Colors.white,
+                  padding: EdgeInsets.zero, // Hapus padding
+                  minimumSize: Size.zero, // Hapus minimum size
+                  tapTargetSize:
+                      MaterialTapTargetSize.shrinkWrap, // Memperkecil area tap
                 ),
+                onPressed: () => _showOrderDialog(hewan),
               ),
             ),
           ],
