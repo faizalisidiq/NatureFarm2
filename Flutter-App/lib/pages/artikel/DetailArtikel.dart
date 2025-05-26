@@ -40,8 +40,8 @@ class _ArticleDetailPageState extends State<ArticleDetailPage> {
                 borderRadius: BorderRadius.circular(8),
                 child: Image.network(
                   // 'http://10.0.2.2:8000/storage/${widget.article.gambar}',
-                  'http://127.0.0.1:8000/storage/${widget.article.gambar}', // API untuk web
-                  // 'http://18.138.155.224/storage/${widget.article.gambar}', // API untuk AWS
+                  // 'http://127.0.0.1:8000/storage/${widget.article.gambar}', // API untuk web
+                  'http://18.138.155.224/storage/${widget.article.gambar}', // API untuk AWS
                   width: double.infinity,
                   height: 200,
                   fit: BoxFit.cover,

@@ -245,8 +245,7 @@ class _PakanListScreenState extends State<PakanListScreen> {
         borderRadius: BorderRadius.circular(8),
       ),
       child: InkWell(
-        onTap: () {
-        },
+        onTap: () {},
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -256,7 +255,10 @@ class _PakanListScreenState extends State<PakanListScreen> {
               width: double.infinity,
               child: pakan.gambar != null && pakan.gambar!.isNotEmpty
                   ? Image.network(
-                      'http://10.0.2.2:8000/storage/${pakan.gambar}',
+                      // 'http://10.0.2.2:8000/storage/${pakan.gambar}',
+                      // 'http://127.0.0.1:8000/storage/${pakan.gambar}',
+                      'http://18.138.155.224/storage/${pakan.gambar}',
+
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         print('Error loading image: $error');
