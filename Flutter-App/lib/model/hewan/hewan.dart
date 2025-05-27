@@ -1,44 +1,70 @@
+import 'package:flutter/foundation.dart';
+
 class Hewan {
+  final int id; // Tambahkan ID untuk identifikasi unik
   final String nama_hewan;
   final String jenis_kelamin;
   final String deskripsi;
-  final int stok;
+  int stok; // Ubah menjadi non-final agar bisa diubah setelah pembelian
   final String status;
-  final String gambar; // Nama file gambar
+  final String gambar;
+  final int harga; // Tambahkan field harga
   final String createdAt;
   final String updatedAt;
 
   Hewan({
+    required this.id,
     required this.nama_hewan,
     required this.jenis_kelamin,
     required this.deskripsi,
     required this.stok,
     required this.status,
     required this.gambar,
+    required this.harga, // Tambahkan parameter harga
     required this.createdAt,
     required this.updatedAt,
   });
 
   factory Hewan.fromJson(Map<String, dynamic> json) {
     // Membuat URL gambar lengkap berdasarkan nama file
-    String imageUrl =
-        // 'http://10.0.2.2:8000/storage/${json['gambar']}'; // API untuk emulator
-        // 'http://127.0.0.1:8000/storage/${json['gambar']}'; // API untuk web
-    'http://18.138.155.224/storage/${json['gambar']}'; // API untuk server AWS
+    String baseUrl;
+    // Gunakan pendekatan yang lebih dinamis untuk URL
+    if (json['gambar'] != null && json['gambar'].isNotEmpty) {
+      if (const bool.fromEnvironment('dart.vm.product')) {
+        // Release mode - gunakan URL produksi
+        baseUrl = 'http://18.138.155.224/storage/';
+      } else {
+        // Debug mode - deteksi platform untuk URL yang sesuai
+        if (kIsWeb) {
+          baseUrl = 'http://127.0.0.1:8000/storage/';
+        } else {
+          baseUrl = 'http://10.0.2.2:8000/storage/';
+        }
+      }
+    } else {
+      baseUrl = '';
+    }
+
+    String imageUrl = json['gambar'] != null && json['gambar'].isNotEmpty
+        ? baseUrl + json['gambar']
+        : '';
 
     return Hewan(
-      nama_hewan: json['nama_hewan'],
-      jenis_kelamin: json['jenis_kelamin'],
-      deskripsi: json['deskripsi'],
-      stok: json['stok'],
-      status: json['status'],
-      gambar: imageUrl, // Menggunakan URL lengkap
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
+      id: json['id'] ?? 0,
+      nama_hewan: json['nama_hewan'] ?? '',
+      jenis_kelamin: json['jenis_kelamin'] ?? '',
+      deskripsi: json['deskripsi'] ?? '',
+      stok: json['stok'] ?? 0,
+      status: json['status'] ?? '',
+      gambar: imageUrl,
+      harga: json['harga'] ?? 0, // Parse harga dari JSON
+      createdAt: json['created_at'] ?? '',
+      updatedAt: json['updated_at'] ?? '',
     );
   }
+
   @override
   String toString() {
-    return 'Nama Hewan: $nama_hewan, Jenis Kelamin: $jenis_kelamin, Stok: $stok, Status: $status, Gambar: $gambar';
+    return 'Nama Hewan: $nama_hewan, Jenis Kelamin: $jenis_kelamin, Stok: $stok, Status: $status, Harga: $harga, Gambar: $gambar';
   }
 }

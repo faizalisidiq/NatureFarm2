@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:naturefarm/model/keranjang/KeranjangProvider.dart';
+import 'package:provider/provider.dart';
 import 'package:naturefarm/pages/login_page.dart'; // Ganti ini sesuai nama file loginmu
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => KeranjangProvider()),
+        // Provider lainnya jika ada
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

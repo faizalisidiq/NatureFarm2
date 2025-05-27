@@ -7,6 +7,9 @@ import 'shipping_page.dart';
 import 'lokasi/flutter_map.dart'; // Impor FlutterMapPage
 import 'profile_page.dart'; // Import halaman profil yang baru dibuat
 import 'package:naturefarm/pages/notification_page.dart'; // tambahkan ini
+import 'package:provider/provider.dart';
+import 'package:naturefarm/model/keranjang/KeranjangProvider.dart';
+import 'package:naturefarm/pages/keranjang/KeranjangPage.dart';
 
 class Home1Page extends StatefulWidget {
   const Home1Page({super.key});
@@ -33,7 +36,7 @@ class _Home1PageState extends State<Home1Page> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   decoration: const BoxDecoration(
-                    color: Color(0xFF224D31), // Warna hijau header
+                    color: Color(0xFF224D31),
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(20),
                       bottomRight: Radius.circular(20),
@@ -51,10 +54,64 @@ class _Home1PageState extends State<Home1Page> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      // Icon profil
-                      CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Icon(Icons.person, color: Color(0xFF224D31)),
+                      // Tambah icon keranjang dan profil
+                      Row(
+                        children: [
+                          // Badge keranjang
+                          Consumer<KeranjangProvider>(
+                            builder: (context, cart, child) {
+                              return Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.shopping_cart,
+                                        color: Colors.white),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const KeranjangPage(),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  if (cart.totalItems > 0)
+                                    Positioned(
+                                      top: 5,
+                                      right: 5,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(2),
+                                        decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        constraints: const BoxConstraints(
+                                          minWidth: 16,
+                                          minHeight: 16,
+                                        ),
+                                        child: Text(
+                                          '${cart.totalItems}',
+                                          style: const TextStyle(
+                                            fontSize: 10,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              );
+                            },
+                          ),
+                          // Icon profil
+                          CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: Icon(Icons.person, color: Color(0xFF224D31)),
+                          ),
+                        ],
                       ),
                     ],
                   ),

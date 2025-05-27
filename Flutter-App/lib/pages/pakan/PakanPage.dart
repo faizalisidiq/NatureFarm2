@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:naturefarm/model/keranjang/keranjang.dart';
 import 'package:naturefarm/model/pakan/RepoPakan.dart';
 import 'package:naturefarm/model/pakan/pakan.dart';
+import 'package:naturefarm/pages/keranjang/KeranjangPage.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart'; // Tambahkan import
+import 'package:naturefarm/model/keranjang/KeranjangProvider.dart'; // Tambahkan impor
 
 class PakanListScreen extends StatefulWidget {
   @override
@@ -121,16 +125,17 @@ class _PakanListScreenState extends State<PakanListScreen> {
                   child: const Text('Batal'),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
+                // Tambahkan tombol untuk menambahkan ke keranjang
                 ElevatedButton.icon(
-                  icon: const FaIcon(FontAwesomeIcons.whatsapp, size: 16),
-                  label: const Text('Pesan Sekarang'),
+                  icon: const Icon(Icons.shopping_cart, size: 16),
+                  label: const Text('Tambah ke Keranjang'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF25D366),
+                    backgroundColor: const Color(0xFF224D31),
                     foregroundColor: Colors.white,
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    _openWhatsApp(pakan, quantity);
+                    _addToCart(pakan, quantity);
                   },
                 ),
               ],
@@ -138,6 +143,50 @@ class _PakanListScreenState extends State<PakanListScreen> {
           },
         );
       },
+    );
+  }
+
+  // Fungsi baru untuk menambahkan ke keranjang
+  void _addToCart(Pakan pakan, int quantity) {
+    final keranjangProvider =
+        Provider.of<KeranjangProvider>(context, listen: false);
+
+    // Buat url gambar lengkap
+    String imageUrl = '';
+    if (pakan.gambar != null && pakan.gambar!.isNotEmpty) {
+      // imageUrl = 'http://18.138.155.224/storage/${pakan.gambar}';
+      //imageUrl = 'http://127.0.0.1/storage/${pakan.gambar}';
+      imageUrl = 'http://10.0.2.2/storage/${pakan.gambar}';
+
+    }
+
+    // Tambahkan ke keranjang
+    keranjangProvider.addItem(KeranjangItem(
+      id: pakan.id,
+      nama: pakan.namaPakan,
+      gambar: imageUrl,
+      jenis: 'pakan', // Identifikasi sebagai pakan
+      harga: pakan.harga,
+      quantity: quantity,
+    ));
+
+    // Tampilkan notifikasi
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('${pakan.namaPakan} ditambahkan ke keranjang'),
+        action: SnackBarAction(
+          label: 'Lihat Keranjang',
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const KeranjangPage(),
+              ),
+            );
+          },
+        ),
+        duration: const Duration(seconds: 2),
+      ),
     );
   }
 
@@ -181,6 +230,52 @@ class _PakanListScreenState extends State<PakanListScreen> {
             )),
         backgroundColor: const Color(0xFF224D31),
         actions: [
+          // Tambahkan badge keranjang
+          Consumer<KeranjangProvider>(
+            builder: (context, cart, child) {
+              return Stack(
+                alignment: Alignment.center,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.shopping_cart, color: Colors.white),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const KeranjangPage(),
+                        ),
+                      );
+                    },
+                  ),
+                  if (cart.totalItems > 0)
+                    Positioned(
+                      top: 5,
+                      right: 5,
+                      child: Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 16,
+                          minHeight: 16,
+                        ),
+                        child: Text(
+                          '${cart.totalItems}',
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.refresh, color: Colors.white),
             onPressed: _refreshData,
@@ -255,7 +350,10 @@ class _PakanListScreenState extends State<PakanListScreen> {
               width: double.infinity,
               child: pakan.gambar != null && pakan.gambar!.isNotEmpty
                   ? Image.network(
-                      'http://18.138.155.224/storage/${pakan.gambar}',
+                      // 'http://18.138.155.224/storage/${pakan.gambar}',
+                      //'http://127.0.0.1:8000/storage/${pakan.gambar}',
+                      'http://10.0.2.2:8000/storage/${pakan.gambar}',
+
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         print('Error loading image: $error');
@@ -306,25 +404,58 @@ class _PakanListScreenState extends State<PakanListScreen> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
+                    // Tampilkan harga jika ada
+                    if (pakan.harga > 0)
+                      Text(
+                        'Rp ${pakan.harga}',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF224D31),
+                        ),
+                      ),
                   ],
                 ),
               ),
             ),
-            // Tombol Pesan - posisi tetap di bawah
+            // Tombol Pesan dan Tambah ke Keranjang
             Container(
               padding:
                   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
               width: double.infinity,
-              child: ElevatedButton.icon(
-                icon: const FaIcon(FontAwesomeIcons.whatsapp, size: 14),
-                label: const Text('Pesan', style: TextStyle(fontSize: 12)),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF25D366),
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 6),
-                  minimumSize: const Size(double.infinity, 30),
-                ),
-                onPressed: () => _showOrderDialog(pakan),
+              child: Row(
+                children: [
+                  // Tombol tambah ke keranjang
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF224D31),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        minimumSize: const Size(0, 30),
+                      ),
+                      onPressed: () => _addToCart(pakan, 1),
+                      child: const Icon(Icons.add_shopping_cart, size: 16),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  // Tombol pesan via WhatsApp
+                  Expanded(
+                    flex: 2,
+                    child: ElevatedButton.icon(
+                      icon: const FaIcon(FontAwesomeIcons.whatsapp, size: 14),
+                      label:
+                          const Text('Pesan', style: TextStyle(fontSize: 12)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF25D366),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        minimumSize: const Size(0, 30),
+                      ),
+                      onPressed: () => _showOrderDialog(pakan),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

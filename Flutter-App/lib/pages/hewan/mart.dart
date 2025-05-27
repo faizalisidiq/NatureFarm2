@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:naturefarm/model/hewan/hewan.dart';
 import 'package:naturefarm/model/hewan/repoHewan.dart';
+import 'package:naturefarm/model/keranjang/KeranjangProvider.dart';
+import 'package:naturefarm/model/keranjang/keranjang.dart';
+import 'package:naturefarm/pages/keranjang/KeranjangPage.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class HewanPage extends StatefulWidget {
   const HewanPage({super.key});
@@ -138,15 +142,50 @@ class _HewanPageState extends State<HewanPage> {
                   onPressed: () => Navigator.of(context).pop(),
                 ),
                 ElevatedButton.icon(
-                  icon: const FaIcon(FontAwesomeIcons.whatsapp, size: 16),
-                  label: const Text('Pesan Sekarang'),
+                  icon: const Icon(Icons.shopping_cart),
+                  label: const Text('Tambah ke Keranjang'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF25D366),
+                    backgroundColor: const Color(0xFF224D31),
                     foregroundColor: Colors.white,
                   ),
                   onPressed: () {
+                    final keranjangProvider = Provider.of<KeranjangProvider>(
+                      context,
+                      listen: false,
+                    );
+
+                    // Tambahkan ke keranjang
+                    keranjangProvider.addItem(
+                      KeranjangItem(
+                        id: hewan.id,
+                        nama: hewan.nama_hewan,
+                        gambar: hewan.gambar,
+                        jenis: 'hewan',
+                        harga:
+                            hewan.harga ?? 0, // Pastikan hewan memiliki harga
+                        quantity: quantity,
+                      ),
+                    );
+
                     Navigator.of(context).pop();
-                    _openWhatsApp(hewan, quantity);
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                            '${hewan.nama_hewan} ditambahkan ke keranjang'),
+                        action: SnackBarAction(
+                          label: 'Lihat Keranjang',
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => KeranjangPage(),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    );
                   },
                 ),
               ],
@@ -207,6 +246,52 @@ class _HewanPageState extends State<HewanPage> {
         ),
         backgroundColor: const Color(0xFF224D31),
         actions: [
+          // Badge keranjang
+          Consumer<KeranjangProvider>(
+            builder: (context, cart, child) {
+              return Stack(
+                alignment: Alignment.center,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.shopping_cart, color: Colors.white),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => KeranjangPage(),
+                        ),
+                      );
+                    },
+                  ),
+                  if (cart.totalItems > 0)
+                    Positioned(
+                      top: 5,
+                      right: 5,
+                      child: Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 16,
+                          minHeight: 16,
+                        ),
+                        child: Text(
+                          '${cart.totalItems}',
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.refresh, color: Colors.white),
             onPressed: _refreshData,

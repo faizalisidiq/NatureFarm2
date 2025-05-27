@@ -5,6 +5,7 @@ class Pakan {
   final int stok;
   final String status;
   final String? gambar;
+  final int harga; // Tambahkan field harga
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -15,6 +16,7 @@ class Pakan {
     required this.stok,
     required this.status,
     this.gambar,
+    required this.harga, // Tambahkan parameter harga
     required this.createdAt,
     required this.updatedAt,
   });
@@ -27,6 +29,7 @@ class Pakan {
       stok: json['stok'],
       status: json['status'],
       gambar: json['gambar'],
+      harga: json['harga'] ?? 0, // Parse harga dari JSON
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
     );
