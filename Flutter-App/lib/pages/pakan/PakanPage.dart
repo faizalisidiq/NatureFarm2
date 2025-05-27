@@ -154,9 +154,9 @@ class _PakanListScreenState extends State<PakanListScreen> {
     // Buat url gambar lengkap
     String imageUrl = '';
     if (pakan.gambar != null && pakan.gambar!.isNotEmpty) {
-      // imageUrl = 'http://18.138.155.224/storage/${pakan.gambar}';
+      imageUrl = 'http://18.138.155.224/storage/${pakan.gambar}';
       //imageUrl = 'http://127.0.0.1/storage/${pakan.gambar}';
-      imageUrl = 'http://10.0.2.2/storage/${pakan.gambar}';
+      // imageUrl = 'http://10.0.2.2/storage/${pakan.gambar}';
 
     }
 
@@ -350,9 +350,9 @@ class _PakanListScreenState extends State<PakanListScreen> {
               width: double.infinity,
               child: pakan.gambar != null && pakan.gambar!.isNotEmpty
                   ? Image.network(
-                      // 'http://18.138.155.224/storage/${pakan.gambar}',
+                      'http://18.138.155.224/storage/${pakan.gambar}',
                       //'http://127.0.0.1:8000/storage/${pakan.gambar}',
-                      'http://10.0.2.2:8000/storage/${pakan.gambar}',
+                      // 'http://10.0.2.2:8000/storage/${pakan.gambar}',
 
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {

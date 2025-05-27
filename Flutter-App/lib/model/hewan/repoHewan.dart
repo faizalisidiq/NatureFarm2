@@ -4,9 +4,9 @@ import 'package:naturefarm/model/hewan/hewan.dart';
 
 class RepoHewan {
   final String apiUrl =
-      'http://10.0.2.2:8000/api/admin/hewans'; // API untuk emulator
+      // 'http://10.0.2.2:8000/api/admin/hewans'; // API untuk emulator
   // 'http://127.0.0.1:8000/api/admin/hewans'; // API untuk web
-  // 'http://18.138.155.224/api/admin/hewans'; // API untuk AWS
+  'http://18.138.155.224/api/admin/hewans'; // API untuk AWS
 
   Future<List<Hewan>> getData() async {
     try {
