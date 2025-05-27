@@ -157,7 +157,6 @@ class _PakanListScreenState extends State<PakanListScreen> {
       imageUrl = 'http://18.138.155.224/storage/${pakan.gambar}';
       //imageUrl = 'http://127.0.0.1/storage/${pakan.gambar}';
       // imageUrl = 'http://10.0.2.2/storage/${pakan.gambar}';
-
     }
 
     // Tambahkan ke keranjang
@@ -174,17 +173,6 @@ class _PakanListScreenState extends State<PakanListScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('${pakan.namaPakan} ditambahkan ke keranjang'),
-        action: SnackBarAction(
-          label: 'Lihat Keranjang',
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const KeranjangPage(),
-              ),
-            );
-          },
-        ),
         duration: const Duration(seconds: 2),
       ),
     );

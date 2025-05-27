@@ -173,17 +173,6 @@ class _HewanPageState extends State<HewanPage> {
                       SnackBar(
                         content: Text(
                             '${hewan.nama_hewan} ditambahkan ke keranjang'),
-                        action: SnackBarAction(
-                          label: 'Lihat Keranjang',
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => KeranjangPage(),
-                              ),
-                            );
-                          },
-                        ),
                       ),
                     );
                   },

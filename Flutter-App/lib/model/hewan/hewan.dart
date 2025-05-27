@@ -27,27 +27,10 @@ class Hewan {
 
   factory Hewan.fromJson(Map<String, dynamic> json) {
     // Membuat URL gambar lengkap berdasarkan nama file
-    String baseUrl;
-    // Gunakan pendekatan yang lebih dinamis untuk URL
-    if (json['gambar'] != null && json['gambar'].isNotEmpty) {
-      if (const bool.fromEnvironment('dart.vm.product')) {
-        // Release mode - gunakan URL produksi
-        baseUrl = 'http://18.138.155.224/storage/';
-      } else {
-        // Debug mode - deteksi platform untuk URL yang sesuai
-        if (kIsWeb) {
-          baseUrl = 'http://127.0.0.1:8000/storage/';
-        } else {
-          baseUrl = 'http://10.0.2.2:8000/storage/';
-        }
-      }
-    } else {
-      baseUrl = '';
-    }
-
-    String imageUrl = json['gambar'] != null && json['gambar'].isNotEmpty
-        ? baseUrl + json['gambar']
-        : '';
+    String imageUrl =
+        // 'http://10.0.2.2:8000/storage/${json['gambar']}'; // API untuk emulator
+        // 'http://127.0.0.1:8000/storage/${json['gambar']}'; // API untuk web
+        'http://18.138.155.224/storage/${json['gambar']}';
 
     return Hewan(
       id: json['id'] ?? 0,
